@@ -5,7 +5,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.HashMap;
 
-public final class $TransactionOptionsSpring extends $TransactionOptions<$TransactionSpring, $TransactionOptionsSpring> {
+public final class $TransactionOptionsSpring extends $TransactionOptions<$TransactionOptionsSpring, $TransactionSpring> {
     final $TransactionalSpring      outer;
     final $TransactionManagerSpring manager;
 
@@ -36,11 +36,10 @@ public final class $TransactionOptionsSpring extends $TransactionOptions<$Transa
         if (super.timeout != null) {
             template.setTimeout(super.timeout);
         }
-
-        TransactionStatus  delegate    = manager.getTransaction(template);
-        $TransactionSpring transaction = new $TransactionSpring(manager, delegate);
-
-        return transaction;
+    
+        TransactionStatus transaction = manager.getTransaction(template);
+        
+        return new $TransactionSpring(transaction, transaction.isNewTransaction(), manager);
     }
 
     /////////////////////////////////////////////////////////////////////

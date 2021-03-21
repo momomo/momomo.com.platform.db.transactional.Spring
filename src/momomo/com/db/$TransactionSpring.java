@@ -7,7 +7,9 @@ public final class $TransactionSpring extends $Transaction<$TransactionSpring> {
     public final $TransactionManagerSpring manager;
     public final TransactionStatus         delegate;
 
-    protected $TransactionSpring($TransactionManagerSpring manager, TransactionStatus transaction) {
+    protected $TransactionSpring(TransactionStatus transaction, boolean isNew, $TransactionManagerSpring manager) {
+        super( isNew ? null : Boolean.FALSE );
+        
         this.manager  = manager;
         this.delegate = transaction;
     }
