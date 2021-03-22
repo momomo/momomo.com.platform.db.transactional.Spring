@@ -1,5 +1,6 @@
 package momomo.com.db;
 
+import momomo.com.exceptions.$DatabaseException;
 import momomo.com.exceptions.$DatabaseTransactionalTimeoutException;
 import org.springframework.transaction.TransactionStatus;
 
@@ -25,7 +26,7 @@ public final class $TransactionSpring extends $Transaction<$TransactionSpring> {
     }
 
     @Override
-    protected void handleExecuteException(Throwable e) {
+    protected void handleExecuteException(Throwable e) throws $DatabaseException {
         String message = e.getMessage();
         if (message != null && message.contains("transaction timeout expired")) {
             throw new $DatabaseTransactionalTimeoutException(e);
