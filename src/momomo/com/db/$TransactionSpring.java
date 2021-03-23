@@ -1,35 +1,29 @@
 package momomo.com.db;
 
-import momomo.com.exceptions.$DatabaseException;
-import momomo.com.exceptions.$DatabaseTransactionalTimeoutException;
 import org.springframework.transaction.TransactionStatus;
 
 public final class $TransactionSpring extends $Transaction<$TransactionSpring> {
     public final $TransactionManagerSpring manager;
     public final TransactionStatus         delegate;
 
-    protected $TransactionSpring(TransactionStatus transaction, boolean isNew, $TransactionManagerSpring manager) {
-        super( isNew ? null : Boolean.FALSE );
-        
-        this.manager  = manager;
-        this.delegate = transaction;
+    protected $TransactionSpring($TransactionManagerSpring outer, TransactionStatus delegate, boolean isNew) {
+        super(outer, isNew ? null : Boolean.FALSE );
+    
+        this.manager  = outer;
+        this.delegate = delegate;
     }
-
-    @Override
-    protected void $commit$() {
-        manager.commit(this);
+    
+    /**
+     * To grant access to the underlying transaction should there be a need
+     */
+    public TransactionStatus delegate() {
+        return delegate; 
     }
-
-    @Override
-    protected void $rollback$() {
-        manager.rollback(this);
-    }
-
-    @Override
-    protected void handleExecuteException(Throwable e) throws $DatabaseException {
-        String message = e.getMessage();
-        if (message != null && message.contains("transaction timeout expired")) {
-            throw new $DatabaseTransactionalTimeoutException(e);
-        }
+    
+    /**
+     * To grant access to our 'transaction manager' from a transaction if there is ever a need
+     */
+    public $TransactionManagerSpring manager() {
+        return manager; 
     }
 }

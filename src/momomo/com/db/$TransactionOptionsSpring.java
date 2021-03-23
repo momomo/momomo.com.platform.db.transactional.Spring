@@ -37,9 +37,9 @@ public final class $TransactionOptionsSpring extends $TransactionOptions<$Transa
             template.setTimeout(super.timeout);
         }
     
-        TransactionStatus transaction = manager.getTransaction(template);
+        TransactionStatus transaction = manager.transaction(template);
         
-        return new $TransactionSpring(transaction, transaction.isNewTransaction(), manager);
+        return new $TransactionSpring(manager, transaction, transaction.isNewTransaction());
     }
 
     /////////////////////////////////////////////////////////////////////
