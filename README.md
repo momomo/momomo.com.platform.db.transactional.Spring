@@ -1,8 +1,6 @@
 <!---
 -->
 
-## momomo.com.platform.db.transactional.Spring
-
 ###### A library to execute database command in transactions without having to use annotations based on Spring libraries.  
 
 ##### Dependencies 
