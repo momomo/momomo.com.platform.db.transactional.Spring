@@ -14,7 +14,7 @@
 <dependency>
   <groupId>com.momomo</groupId>
   <artifactId>momomo.com.platform.db.base.transactional.Spring</artifactId>
-  <version>2.1.7</version>
+  <version>2.1.8</version>
 </dependency>                                                      
 ```                         
 ##### Repository
