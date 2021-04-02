@@ -25,7 +25,7 @@ public final class $TransactionOptionsSpring extends $TransactionOptions<$Transa
         if ( super.readOnly != null ) {
             template.setReadOnly(super.readOnly);
         }
-
+        
         /*
          * Really only supported for $HibernateRepository
          */
