@@ -26,4 +26,9 @@ public final class $TransactionSpring extends $Transaction<$TransactionSpring> {
     public $TransactionManagerSpring manager() {
         return manager; 
     }
+    
+    @Override
+    public String toString() {
+        return getClass().getName() + "@" + System.identityHashCode(delegate);
+    }
 }
