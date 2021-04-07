@@ -2,7 +2,6 @@ package momomo.com.db;
 
 import momomo.com.annotations.informative.Final;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.support.AbstractPlatformTransactionManager;
 
 /**
  * @author Joseph S.
