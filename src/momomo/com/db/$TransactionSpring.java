@@ -10,7 +10,7 @@ public final class $TransactionSpring extends $Transaction<$TransactionSpring> {
         super(outer, isNew ? null : Boolean.FALSE );
     
         this.manager  = outer;
-        this.delegate = delegate;
+        this.delegate = delegate;   
     }
     
     /**
