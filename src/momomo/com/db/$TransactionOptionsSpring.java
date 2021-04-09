@@ -19,7 +19,7 @@ public final class $TransactionOptionsSpring extends $TransactionOptions<$Transa
     @Override
     public  $TransactionSpring create() {
         TransactionTemplate template = manager.template();
-    
+        
         template.setPropagationBehavior( PROPAGATION_TRANSLATION.get(super.propagation).value() );
 
         if ( super.readOnly != null ) {
