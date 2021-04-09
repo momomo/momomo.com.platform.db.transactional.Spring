@@ -697,36 +697,43 @@ public List<Stellar> range(Timestamp from, Timestamp to) {
 If we now look at **[`PUBLIC_STATIC_VOID_MAIN`](https://github.com/momomo/momomo.com.example.app.Crypto.based.on.spring.libraries/tree/master/src/momomo/com/example/extra/PUBLIC_STATIC_VOID_MAIN.java)** we can find a `static void main` and some code ready to run the entire thing.
 
 ```java
-public static void main(String[] args) {
-    Bitcoin.S.populate(1);
-    Polkadot.S.populate(1);
-    Stellar.S.populate(1);
-
-    // We disable autocommit using false, and commit manually 
-    {
-        Crypto.repository().requireTransaction(tx-> {
-            Bitcoin.S.populate(1000);
+public class PUBLIC_STATIC_VOID_MAIN {
+    /////////////////////////////////////////////////////////////////////
+    // Spring hijacking our entire Java platform and now we have to jump hoops from this moment forward just because we are forced to inject, and let Spring auto configure for us. Everything basically now has to rely on Spring and our Java environment is reduced to ****, literally. Our entire code is now affected, and we have to adjust our code to fit into Spring.   
+    public static final AnnotationConfigApplicationContext CONTEXT = new AnnotationConfigApplicationContext("momomo.com.example.app");
+    /////////////////////////////////////////////////////////////////////
+    
+    public static void main(String[] args) {
+        Bitcoin.S.populate(1);
+        Polkadot.S.populate(1);
+        Stellar.S.populate();
+    
+        // We disable autocommit using false, and commit manually 
+        {
+            Crypto.repository().requireTransaction(tx-> {
+                Bitcoin.S.populate(1000);
             
-            tx.commit();
+                tx.commit();
             
-        }, false /** disable autocommit **/);
-    }
-
-    // We rollback from inside the lambda
-    {
-        Crypto.repository().requireTransaction(tx -> {
-            Bitcoin.S.populate(-10000);
+            }, false /** disable autocommit **/);
+        }
+    
+        // We rollback from inside the lambda
+        {
+            Crypto.repository().requireTransaction(tx -> {
+                Bitcoin.S.populate(-10000);
+            
+                tx.rollback();
+            });
+        }
+    
+        // We rollback from 'free' mode
+        {
+            $Transaction tx = Crypto.repository().requireTransaction();
+            Bitcoin.S.populate(-100000);
         
             tx.rollback();
-        });
-    }
-
-    // We rollback from 'free' mode
-    {
-        $Transaction tx = Crypto.repository().requireTransaction();
-        Bitcoin.S.populate(-100000);
-        
-        tx.rollback();
+        }
     }
 }
 ```
@@ -743,7 +750,6 @@ When we run this static void main we will eventually find the **following in our
    
    * ***stellar table***  
    ![Stellar table](https://github.com/momomo/momomo.com.github.statics/blob/master/momomo.com.example.app.Crypto/graphics/database.stellar.table.2021.04.03.V2.jpg?raw=true)        
-           
 
 ### Contribute
 Send an email to `opensource{at}momomo.com` if you would like to contribute in any way, make changes or otherwise have thoughts and/or ideas on things to improve.
